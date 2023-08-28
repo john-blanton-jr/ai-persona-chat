@@ -1,17 +1,14 @@
 import { useEffect, useState } from "react";
 
 function App() {
-  const [users, setUsers] = useState([]);  // Initialize to an empty array
-
+  const [users, setUsers] = useState([]); 
   const fetchData = async () => {
     try {
       const url = `http://localhost:8000/`;
       const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
-        setUsers(data);  // Use nullish coalescing to default to an empty array
-        console.log(users);
+        setUsers(data);
       } else {
         console.error("Server responded with an error");
       }
@@ -23,7 +20,7 @@ function App() {
 
   useEffect(() => {
     fetchData();
-  }, []); // Add any dependencies here if needed
+  }, []); 
 
   return (
     <>

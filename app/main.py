@@ -1,14 +1,20 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+import os
+from routers.user import user
 
-from app.routers.user import user
-import sys
-
-print(sys.path)
+# Assuming movie_data is an APIRouter object
 
 app = FastAPI()
-# app.include_router(user)
 
+# Include the routers
+app.include_router(user, tags=["user"], prefix="/user")
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+# CORS Middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[os.environ.get("CORS_HOST", "http://localhost:3000")],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)

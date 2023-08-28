@@ -1,15 +1,29 @@
 version: '3.8'
 services:
-  app:
-    container_name: app
-    build: .
+  fastapi:
+    environment:
+       CORS_HOST: http://localhost:3000
+    build:
+      context: .
+      dockerfile: Dockerfile.backend  # The Dockerfile we simplified earlier
     ports:
-      - "80:80"
+      - "8000:8000"
     depends_on:
-      - db
-  db:
-    image: mongo
+      - mongodb
+
+  frontend:
+    build:
+      context: ./react-frontend  # Assuming your frontend code is in this directory
+      dockerfile: Dockerfile.frontend  # Create a new Dockerfile for the frontend
+    ports:
+      - "3000:3000"
+
+  mongodb:
+    image: mongo:4.4.7
+    volumes:
+      - mongo_data:/data/db
     ports:
       - "27017:27017"
-    volumes:
-      - ./data:/data/db
+
+volumes:
+  mongo_data:
