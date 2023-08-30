@@ -1,155 +1,133 @@
-from dotenv import load_dotenv
 import os
-from pymongo import MongoClient
+import traceback
 import requests
-import uuid
-from schemas.user import serializeList
-from fastapi import APIRouter
-from pydantic import BaseModel
+from typing import List
+from bson import ObjectId
+from config.db import conn
+from dotenv import load_dotenv
+from fastapi import APIRouter, Query, HTTPException
+from schemas.user import (
+    serializeList,
+)  # Assuming this is where your serializeList function is defined
+from fastapi.responses import JSONResponse
 
-# Load environment variables
+from models.chat import ChatInput, PersonaInput, UserInput
+
 load_dotenv()
 
-# Retrieve API key from .env
 openapi_key = os.getenv("OPENAI_API_KEY")
 
-# MongoDB connection
-conn = MongoClient("mongodb://mongodb:27017/")
 chat_history_collection = conn.local.chat_history
-session_collection = conn.local.session_ids
 
-# FastAPI app
 chat = APIRouter()
 
 
-def generate_session_id():
-    return str(uuid.uuid4())
-
-
-def calculate_total_tokens(messages):
-    return sum(len(msg["content"].split()) for msg in messages)
-
-
-@chat.post("/chat/start/")
-async def start_chat_session():
-    session_id = generate_session_id()
-    session_collection.insert_one({"session_id": session_id})
-    return {"session_id": session_id}
-
-
-def validate_session_id(session_id: str):
-    return session_collection.find_one({"session_id": session_id}) is not None
-
-
-# Global variables to store observed token usage
-observed_prompt_tokens = 0
-observed_completion_tokens = 0
-
-
-def chat_with_gpt3_5(prompt, chat_history=None):
-    global observed_prompt_tokens, observed_completion_tokens
-    url = "https://api.openai.com/v1/chat/completions"
-    headers = {"Authorization": f"Bearer {openapi_key}"}
-    MAX_TOKENS = 3950  # Lower than actual limit as a buffer
-
-    # Dynamically adjust TOKEN_BUFFER based on observed token usage
-    TOKEN_BUFFER = observed_prompt_tokens + observed_completion_tokens + 50
-
-    messages = [
-        {
-            "role": "system",
-            "content": "You are a computer nerd. You love talking about programming, tech trends, and all things computer-related. And sometimes nerd funny",
-        }
-    ]
-
-    if chat_history:
-        for item in chat_history:
-            messages.append({"role": "user", "content": item["user_message"]})
-            messages.append({"role": "assistant", "content": item["chatbot_reply"]})
-
-    messages.append({"role": "user", "content": prompt})
-
-    total_tokens = calculate_total_tokens(messages) + TOKEN_BUFFER  # Add buffer
-
-    while total_tokens > MAX_TOKENS and len(messages) > 2:
-        removed_user_msg = messages.pop(0)
-        removed_assistant_msg = messages.pop(0)
-        total_tokens -= len(removed_user_msg["content"].split()) + len(
-            removed_assistant_msg["content"].split()
-        )
-
-    data = {"model": "gpt-3.5-turbo", "messages": messages}
-
-    response = requests.post(url, headers=headers, json=data)
-    response_data = response.json()
-
-    if "usage" in response_data:
-        print("Token Usage:", response_data["usage"])  # Print token usage info
-        observed_prompt_tokens = response_data["usage"]["prompt_tokens"]
-        observed_completion_tokens = response_data["usage"]["completion_tokens"]
-
+def get_persona_details(persona_id):
     try:
+        result = conn.local.personas.find_one({"_id": ObjectId(persona_id)})
+        if result is None:
+            print(f"No document found for persona_id: {persona_id}")
+            # Debug line: Print a few documents to check the data
+            sample_data = conn.local.personas.find().limit(5)
+            print(f"Sample data: {list(sample_data)}")
+        else:
+            print(f"Querying for persona_id: {persona_id}, Result: {result}")
+        return result
+    except Exception as e:
+        traceback.print_exc()
+        print(f"Error fetching persona details: {e}")
+        return None
+
+
+def chat_with_gpt3_5(prompt, persona_id, chat_history=None):
+    try:
+        persona_details = get_persona_details(persona_id)
+        url = "https://api.openai.com/v1/chat/completions"
+        headers = {"Authorization": f"Bearer {openapi_key}"}
+        system_message_content = "Default System Message"
+        if persona_details is not None:
+            system_message_content = persona_details["description"]
+        else:
+            print("Persona details not found.")
+        messages = [{"role": "system", "content": system_message_content}]
+        if chat_history:
+            for item in chat_history:
+                messages.append({"role": "user", "content": item["user_message"]})
+                messages.append({"role": "assistant", "content": item["chatbot_reply"]})
+        messages.append({"role": "user", "content": prompt})
+        data = {"model": "gpt-3.5-turbo", "messages": messages}
+        response = requests.post(url, headers=headers, json=data)
+        response.raise_for_status()
+        response_data = response.json()
         return response_data["choices"][0]["message"]["content"].strip()
-    except KeyError:
-        print("Error: ", response_data)
+    except Exception as e:
+        traceback.print_exc()
+        print(f"HTTP Request error: {e}")
         return "An error occurred while talking to the chatbot."
 
 
-class ChatInput(BaseModel):
-    user_message: str
-
-
-@chat.post("/chat/")
-async def chat_endpoint(chat_input: ChatInput, session_id: str):
-    if not validate_session_id(session_id):
-        return {"error": "Invalid session ID"}
-
-    user_message = chat_input.user_message
-    history = list(chat_history_collection.find({"session_id": session_id}))
-    serialized_history = serializeList(history)
-
-    chatbot_reply = chat_with_gpt3_5(user_message, serialized_history)
-
-    chat_history_collection.insert_one(
-        {
-            "session_id": session_id,
-            "user_message": user_message,
-            "chatbot_reply": chatbot_reply,
-        }
-    )
-
-    return {"chatbot_reply": chatbot_reply}
-
-
-@chat.get("/chat/history/{session_id}/")
-async def get_chat_history(session_id: str):
+@chat.post("/chat")
+async def chat_endpoint(
+    chat_input: ChatInput, user_id: str = Query(...), persona_id: str = Query(...)
+):
+    print(f"Debug: Searching for persona_id: {persona_id}, user_id: {user_id}")
     try:
-        history = list(chat_history_collection.find({"session_id": session_id}))
+        user_message = chat_input.user_message
+        history = list(
+            chat_history_collection.find({"user_id": user_id, "persona_id": persona_id})
+        )
         serialized_history = serializeList(history)
-        return {"chat_history": serialized_history}
+        chatbot_reply = chat_with_gpt3_5(user_message, persona_id, serialized_history)
+
+        # Insert the chat history and get the inserted_id
+        new_chat = chat_history_collection.insert_one(
+            {
+                "user_id": user_id,
+                "persona_id": persona_id,
+                "user_message": user_message,
+                "chatbot_reply": chatbot_reply,
+            }
+        )
+
+        # Return the chatbot reply and the new chat_id
+        return {"chatbot_reply": chatbot_reply, "chat_id": str(new_chat.inserted_id)}
+
     except Exception as e:
-        print(f"An error occurred: {e}")
-        return {"error": "An error occurred while fetching chat history"}
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail="Internal Server Error")
 
 
-@chat.get("/chat/summary/{session_id}/")
-async def get_chat_summary(session_id: str):
-    try:
-        history = list(chat_history_collection.find({"session_id": session_id}))
-        serialized_history = serializeList(history)
-        summary = summarize_chat(serialized_history)
-        return {"chat_summary": summary}
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        return {"error": "An error occurred while fetching chat summary"}
+@chat.post("/add_user")
+async def add_user(user_input: UserInput):
+    new_user = conn.local.users.insert_one(user_input.dict())
+    return {"message": "User added successfully", "user_id": str(new_user.inserted_id)}
 
 
-def summarize_chat(serialized_chat_history):
-    chat_text = "\n".join(
-        [
-            f"User: {item['user_message']}\nBot: {item['chatbot_reply']}"
-            for item in serialized_chat_history
-        ]
+@chat.post("/add_persona")
+async def add_persona(persona_input: PersonaInput):
+    new_persona = conn.local.personas.insert_one(persona_input.dict())
+    return {
+        "message": "Persona added successfully",
+        "persona_id": str(new_persona.inserted_id),
+    }
+
+
+@chat.get("/get_chat_history")
+async def get_chat_history(user_id: str, persona_id: str):
+    print(f"Debug: Searching for persona_id: {persona_id}, user_id: {user_id}")
+    history = list(
+        chat_history_collection.find({"user_id": user_id, "persona_id": persona_id})
     )
-    summary = chat_with_gpt3_5(f"Summarize the following chat:\n{chat_text}")
-    return summary
+    print("Debug: Chat History Raw: ", history)
+
+    # Convert ObjectId to string
+    for record in history:
+        record["_id"] = str(record["_id"])
+
+    if history:
+        serialized_history = serializeList(history)
+        return JSONResponse(content={"chat_history": serialized_history})
+    else:
+        return JSONResponse(
+            content={"message": "No chat history found"}, status_code=404
+        )

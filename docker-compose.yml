@@ -2,10 +2,10 @@ version: '3.8'
 services:
   fastapi:
     environment:
-       CORS_HOST: http://localhost:3000
+      CORS_HOST: http://localhost:3000
     build:
       context: .
-      dockerfile: Dockerfile.backend  # The Dockerfile we simplified earlier
+      dockerfile: Dockerfile.backend
     ports:
       - "8000:8000"
     depends_on:
@@ -13,17 +13,33 @@ services:
 
   frontend:
     build:
-      context: ./react-frontend  # Assuming your frontend code is in this directory
-      dockerfile: Dockerfile.frontend  # Create a new Dockerfile for the frontend
+      context: ./react-frontend
+      dockerfile: Dockerfile.frontend
     ports:
       - "3000:3000"
+    volumes:
+          - ./react-frontend:/app
+          - /app/node_modules
 
   mongodb:
     image: mongo:4.4.7
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
     volumes:
       - mongo_data:/data/db
     ports:
       - "27017:27017"
-
+  mongo-express:
+    image: mongo-express:latest
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_SERVER: mongodb
+    depends_on:
+      - mongodb
+    restart: always
 volumes:
   mongo_data:

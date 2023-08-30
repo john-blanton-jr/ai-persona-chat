@@ -40,3 +40,20 @@
 .read-the-docs {
   color: #888;
 } */
+
+.bg-chat-outer-dark {
+  background-color: #26262E;
+}
+.bg-chat-dark {
+  background-color: #3f434b;
+}
+
+.bg-chat-green {
+  background-color: #D8FEAB;
+}
+
+#chat3:focus {
+  /* border-color: initial !important;
+  box-shadow: none !important; */
+  background-color: #3f434b;
+}
