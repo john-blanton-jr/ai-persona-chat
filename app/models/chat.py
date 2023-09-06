@@ -1,17 +1,26 @@
 from pydantic import BaseModel
+from typing import List
 
 
-class ChatInput(BaseModel):
-    user_message: str
+class ChatMessage(BaseModel):
+    message: str
+    timestamp: str
+    persona_name: str
 
 
-class PersonaInput(BaseModel):
+class ChatHistory(BaseModel):
+    user_id: str
+    messages: List[ChatMessage]
+
+
+class Persona(BaseModel):
     name: str
-    avatar_svg: str
+    avatar: str
     description: str
     short_description: str
+    chat_history: ChatHistory
 
 
-class UserInput(BaseModel):
-    username: str
-    password: str
+class SwitchPersonaRequest(BaseModel):
+    user_id: str
+    new_persona_name: str

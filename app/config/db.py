@@ -1,3 +1,5 @@
+import os
 from pymongo import MongoClient
 
-conn = MongoClient("mongodb://root:example@mongodb:27017/")
+client = MongoClient("mongodb://root:example@mongodb:27017/")
+db = client[os.getenv("DATABASE_NAME")]
