@@ -159,52 +159,7 @@ function BotChat() {
                         style={{ position: "relative", height: "400px" }}
                       >
                         <ul>
-                          {personas.map((persona, index) => (
-                            <li
-                              key={persona._id.toString()}
-                              className={`p-2 ${
-                                index === personas.length - 1
-                                  ? ""
-                                  : "border-bottom"
-                              } bg-chat-dark ${
-                                persona._id === personaId ? "bg-success" : ""
-                              }`}
-                              onClick={() => handlePersonaClick(persona._id)}
-                            >
-                              <a
-                                href="#!"
-                                className="d-flex justify-content-between"
-                              >
-                                <div className="d-flex flex-row text-white">
-                                  <div>
-                                    <img
-                                      src={persona.avatar}
-                                      alt="avatar"
-                                      className="d-flex align-self-center me-3"
-                                      style={{
-                                        width: "60px",
-                                        borderRadius: "50%",
-                                      }}
-                                    />
-                                    <span className="badge bg-success badge-dot"></span>
-                                  </div>
-                                  <div className="pt-1">
-                                    <p className="fw-bold mb-0">
-                                      {persona.name}
-                                    </p>
-                                    <p className="small">
-                                      {persona.short_description}
-                                    </p>
-                                  </div>
-                                </div>
-                                <div className="pt-1">
-                                  <p className="small mb-1 text-white">
-                                    Just now
-                                  </p>
-                                </div>
-                              </a>
-                            </li>
-                          ))}
+                          <p>persona list??</p>
                         </ul>
                       </div>
                     </div>
@@ -218,18 +173,17 @@ function BotChat() {
                         // boxShadow: "inset 0 0 5px #000000",
                       }}
                     >
-                      {chatHistory.map((message) => {
-                        console.log("Rendering Message:", message);
-                        return (
+                      {Array.isArray(chatHistory) ? (
+                        chatHistory.map((msg) => (
                           <div
-                            key={message._id}
+                            key={msg._id}
                             className={`d-flex ${
-                              message.role === "user"
+                              msg.role === "user"
                                 ? "justify-content-end"
                                 : "justify-content-start"
                             }`}
                           >
-                            {message.role === "assistant" && (
+                            {msg.role === "assistant" && (
                               <img
                                 src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"
                                 alt="avatar"
@@ -242,22 +196,23 @@ function BotChat() {
                             >
                               <div
                                 className={`p-2 ${
-                                  message.role === "user"
+                                  msg.role === "user"
                                     ? "bg-chat-green shadow"
                                     : "bg-white shadow"
                                 }`}
                               >
-                                <strong>{message.role}:</strong>{" "}
-                                {message.role === "user"
-                                  ? message.user_message
-                                  : message.chatbot_reply}
+                                <strong>{msg.role}:</strong>{" "}
+                                {msg.role === "user"
+                                  ? "You"
+                                  : selectedPersona.name}
+                                : {msg.message}
                               </div>
                               <p className="small rounded-3 text-muted float-end">
-                                12:00 PM | Aug 13{" "}
+                                12:00 PM | Aug 13
                                 {/* Replace with real date and time */}
                               </p>
                             </div>
-                            {message.role === "user" && (
+                            {msg.role === "user" && (
                               <img
                                 src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
                                 alt="avatar"
@@ -265,8 +220,10 @@ function BotChat() {
                               />
                             )}
                           </div>
-                        );
-                      })}
+                        ))
+                      ) : (
+                        <div>Error: chatHistory is not an array</div>
+                      )}
 
                       <div ref={messagesEndRef} />
                     </div>

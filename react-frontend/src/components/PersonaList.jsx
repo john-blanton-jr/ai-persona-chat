@@ -43,9 +43,6 @@ function PersonaList({ onSelectPersona }) {
                   <p className="small">{persona.short_description}</p>
                 </div>
               </div>
-              <div className="pt-1">
-                <p className="small mb-1 text-white">Just now</p>
-              </div>
             </a>
           </li>
         ))}
