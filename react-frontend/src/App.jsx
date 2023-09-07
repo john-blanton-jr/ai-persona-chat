@@ -1,23 +1,19 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+// import React, { useState } from "react";
+import ChatApp from "./components/ChatApp";
 import "./App.css";
-import BotChat from "./BotChat";
 
 function App() {
-
-
   return (
-    <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<BotChat />}></Route>
-          </Routes>
-    </BrowserRouter>
+    <div>
+      <ChatApp />
+    </div>
   );
 }
+
 export default App;
 
-
 // function App() {
-//   const [users, setUsers] = useState([]); 
+//   const [users, setUsers] = useState([]);
 //   const fetchData = async () => {
 //     try {
 //       const url = `http://localhost:8000/`;
@@ -32,11 +28,10 @@ export default App;
 //       console.error("There was a problem fetching data", error);
 //     }
 //   };
-  
 
 //   useEffect(() => {
 //     fetchData();
-//   }, []); 
+//   }, []);
 
 //   return (
 //     <>

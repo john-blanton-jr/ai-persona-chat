@@ -4,8 +4,21 @@ from fastapi.responses import JSONResponse
 import os
 from routers.user import user
 from routers.chat import chat
+from bson import ObjectId
 
-app = FastAPI()
+
+def json_encoder(o):
+    if isinstance(o, ObjectId):
+        return str(o)
+    if isinstance(o, dict):
+        return {
+            key: (str(value) if isinstance(value, ObjectId) else value)
+            for key, value in o.items()
+        }
+    raise TypeError(f"Object of type {o.__class__.__name__} is not JSON serializable")
+
+
+app = FastAPI(json_encoders={ObjectId: json_encoder})
 
 
 @app.exception_handler(HTTPException)
