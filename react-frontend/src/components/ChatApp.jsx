@@ -12,7 +12,7 @@ function ChatApp() {
     <div>
       <ChatComponent
         selectedPersona={selectedPersona}
-        userId={userId}
+        initialUserId={userId}
         onSelectPersona={handleSelectPersona}
       />
     </div>

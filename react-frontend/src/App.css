@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,700;1,400&family=Oswald&display=swap');
+
 /* #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -41,6 +43,11 @@
   color: #888;
 } */
 
+body{
+  font-family: 'Lora', serif;
+  font-weight: 400;
+}
+
 .bg-chat-outer-dark {
   background-color: #26262E;
 }
@@ -57,3 +64,14 @@
   box-shadow: none !important; */
   background-color: #3f434b;
 }
+
+.title-text {
+  font-family: 'Oswald', sans-serif;
+}
+
+.persona-title {
+  font-family: 'Lora', serif;
+  font-weight: 700;
+  color: #F5AC72;
+}
+

@@ -13,9 +13,9 @@ function PersonaList({ onSelectPersona }) {
   return (
     <div
       data-mdb-perfect-scrollbar="true"
-      style={{ position: "relative", height: "400px" }}
+      className="d-flex flex-column justify-content-center align-items-center"
     >
-      <ul>
+      <ul className="w-100 p-3">
         {personas.map((persona, index) => (
           <li
             key={persona.name}
@@ -24,23 +24,26 @@ function PersonaList({ onSelectPersona }) {
             } bg-chat-dark`}
             onClick={() => onSelectPersona(persona)}
           >
-            <a href="#!" className="d-flex justify-content-between">
+            <a
+              href="#!"
+              className="d-flex justify-content-between text-decoration-none"
+            >
               <div className="d-flex flex-row text-white">
                 <div>
                   <img
                     src={persona.avatar}
                     alt="avatar"
-                    className="d-flex align-self-center me-3"
+                    className="d-flex align-self-center me-3 bg-light "
                     style={{
-                      width: "60px",
+                      width: "80px",
                       borderRadius: "50%",
                     }}
                   />
                   <span className="badge bg-success badge-dot"></span>
                 </div>
                 <div className="pt-1">
-                  <p className="fw-bold mb-0">{persona.name}</p>
-                  <p className="small">{persona.short_description}</p>
+                  <p className="mb-0 persona-title">{persona.name}</p>
+                  <p className="fs-6">{persona.short_description}</p>
                 </div>
               </div>
             </a>
