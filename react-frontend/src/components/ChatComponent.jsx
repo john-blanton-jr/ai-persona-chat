@@ -11,7 +11,7 @@ function ChatComponent({
   const [newMessage, setNewMessage] = useState("");
   const [userId, setUserId] = useState(initialUserId || "user1");
   const isFetching = useRef(false);
-
+  const [personaDescription, setPersonaDescription] = useState("");
   const messagesEndRef = useRef(null);
   const [maxHeight, setMaxHeight] = useState("700px");
   const [chatWindowHeight, setChatWindowHeight] = useState("600px");
@@ -20,16 +20,15 @@ function ChatComponent({
     const updateDimensions = () => {
       if (window.innerWidth <= 992) {
         setMaxHeight("300px");
-        setChatWindowHeight("400px"); // Set chat window height to 400px for responsive design
+        setChatWindowHeight("400px");
       } else {
         setMaxHeight("700px");
-        setChatWindowHeight("600px"); // Set chat window height back to 600px for larger screens
+        setChatWindowHeight("600px");
       }
     };
 
     window.addEventListener("resize", updateDimensions);
 
-    // Initial check
     updateDimensions();
 
     return () => {
@@ -47,7 +46,8 @@ function ChatComponent({
         const response = await fetch("http://localhost:8000/chat/get_personas");
         const personas = await response.json();
         if (personas && personas.length > 0 && !selectedPersona) {
-          onSelectPersona(personas[0]); // Set the first persona as the selectedPersona
+          onSelectPersona(personas[0]);
+          setPersonaDescription(personas[0].description); // Set the persona description here
         }
       } catch (error) {
         console.error("Error fetching personas:", error);
@@ -134,16 +134,22 @@ function ChatComponent({
         role: "user",
         message: newMessage,
       };
+
+      const requestBody = {
+        user_id: userId,
+        persona_name: selectedPersona.name,
+        message: newMessage,
+        persona_description: personaDescription,
+      };
+
+      console.log("Request Body:", requestBody); // Log the request body to verify the values
+
       const response = await fetch("http://localhost:8000/chat/send_message", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          user_id: userId,
-          persona_name: selectedPersona.name,
-          message: newMessage,
-        }),
+        body: JSON.stringify(requestBody),
       });
 
       if (!response.ok) {
@@ -152,15 +158,20 @@ function ChatComponent({
 
       const data = await response.json();
 
-      setChatHistory((prevChatHistory) => [
-        ...(Array.isArray(prevChatHistory) ? prevChatHistory : []),
-        userMessage,
-        {
-          role: "assistant",
-          message: data.response.message,
-        },
-      ]);
-      setNewMessage("");
+      if (data && data.response) {
+        setChatHistory((prevChatHistory) => [
+          ...(Array.isArray(prevChatHistory) ? prevChatHistory : []),
+          userMessage,
+          {
+            role: "friendly_companion", // Changed role from "assistant" to "friendly_companion"
+            message: data.response.message,
+          },
+        ]);
+
+        setNewMessage(""); // Clear the chat input
+      } else {
+        console.error("Unexpected response format:", data);
+      }
     } catch (error) {
       console.error("Error sending message:", error);
     }
@@ -216,6 +227,7 @@ function ChatComponent({
                       </div>
                     </div>
                     <div className="col-lg-7 col-xl-8 p-3">
+                      <p className="text-white">Test over chat</p>
                       <div
                         className="p-3 overflow-auto bg-chat-dark"
                         style={{

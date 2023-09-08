@@ -45,6 +45,7 @@ class SendMessageRequest(BaseModel):
     user_id: str
     persona_name: str
     message: str
+    persona_description: str  # New field for persona description
 
 
 def json_encoder(o):
@@ -64,7 +65,7 @@ async def add_persona(persona: Persona):
     if "chat_history" not in persona_data:
         persona_data["chat_history"] = {"user_id": "", "messages": []}
     persona_collection.insert_one(persona_data)
-    return {"message": "Persona added successfully"}
+    return {"message": "Yay! Your new persona has been added successfully!"}
 
 
 @chat.get("/get_personas")
@@ -77,7 +78,7 @@ async def get_personas():
 @chat.get("/switch_persona")
 async def switch_persona(request: SwitchPersonaRequest):
     print(
-        f"Switching persona, received user_id: {request.user_id}, new_persona_name: {request.new_persona_name}"
+        f"Hey, I noticed you're using the persona named {request.new_persona_name}. Let's chat!"
     )  # Log received user_id and new_persona_name
 
     user_persona = persona_collection.find_one({"name": request.new_persona_name})
@@ -86,15 +87,18 @@ async def switch_persona(request: SwitchPersonaRequest):
             {"name": request.new_persona_name},
             {"$set": {"chat_history.user_id": request.user_id}},
         )
-        return {"message": f"Switched to persona: {request.new_persona_name}"}
+        return {"message": f"Switched to persona: {request.new_persona_name} 😊"}
     else:
-        raise HTTPException(status_code=404, detail="Persona not found")
+        raise HTTPException(
+            status_code=404,
+            detail="Oops, I couldn't find that persona. Maybe check the name and try again?",
+        )
 
 
 @chat.get("/get_chat_history")
 async def get_chat_history(user_id: str, persona_name: str):
     print(
-        f"Received user_id: {user_id}, persona_name: {persona_name}"
+        f"Hey, I noticed you're using the persona named {persona_name}. Let's chat!"
     )  # Log received user_id and persona_name
     user_persona = persona_collection.find_one({"name": persona_name})
     if user_persona:
@@ -123,7 +127,9 @@ async def send_message(request: SendMessageRequest):
     if user_persona:
         chat_history = user_persona.get("chat_history", {"messages": []})
     else:
-        return {"error": "Persona not found"}
+        return {
+            "error": "Oops, I couldn't find that persona. Maybe check the name and try again?"
+        }
 
     # Construct the user message object
     user_message = {
@@ -140,8 +146,21 @@ async def send_message(request: SendMessageRequest):
         {"role": msg["role"], "content": msg["message"]}
         for msg in chat_history["messages"]
     ]
-
+    print("HHHEEERRREEEE", messages_param)
     try:
+        # Include the persona description as the first message in the conversation
+        messages_param.insert(
+            0,
+            {
+                "role": "system",
+                "content": f"You are a friendly companion. {request.persona_description}",
+            },
+        )
+
+        print(
+            "Sending the following request to GPT-3.5-turbo:", messages_param
+        )  # This line prints the request to the console
+
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=messages_param,
@@ -178,6 +197,9 @@ async def delete_chat_history(user_id: str, persona_name: str):
             {"name": persona_name},
             {"$set": {"chat_history": {"user_id": user_id, "messages": []}}},
         )
-        return {"message": "Chat history deleted successfully"}
+        return {"message": "Chat history deleted successfully 😊"}
     else:
-        raise HTTPException(status_code=404, detail="Persona not found")
+        raise HTTPException(
+            status_code=404,
+            detail="Oops, I couldn't find that persona. Maybe check the name and try again?",
+        )
