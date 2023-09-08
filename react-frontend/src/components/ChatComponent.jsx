@@ -15,6 +15,7 @@ function ChatComponent({
   const messagesEndRef = useRef(null);
   const [maxHeight, setMaxHeight] = useState("700px");
   const [chatWindowHeight, setChatWindowHeight] = useState("600px");
+  const [tempMessage, setTempMessage] = useState("");
 
   useEffect(() => {
     const updateDimensions = () => {
@@ -74,6 +75,7 @@ function ChatComponent({
       const data = await response.json();
       if (data && Array.isArray(data)) {
         setChatHistory(data);
+        console.log("HEREEEEE!!!!!", data);
       } else {
         console.error("Error: chat history data format is incorrect", data);
       }
@@ -129,6 +131,9 @@ function ChatComponent({
       return;
     }
 
+    setTempMessage(newMessage); // Store the current message temporarily
+    setNewMessage(""); // Clear the input field immediately
+
     try {
       const userMessage = {
         role: "user",
@@ -163,17 +168,19 @@ function ChatComponent({
           ...(Array.isArray(prevChatHistory) ? prevChatHistory : []),
           userMessage,
           {
-            role: "friendly_companion", // Changed role from "assistant" to "friendly_companion"
+            role: "assistant",
             message: data.response.message,
           },
         ]);
 
-        setNewMessage(""); // Clear the chat input
+        setTempMessage(""); // Clear the temporary message as it has been successfully sent
       } else {
         console.error("Unexpected response format:", data);
+        throw new Error("Unexpected response format");
       }
     } catch (error) {
       console.error("Error sending message:", error);
+      setNewMessage(tempMessage); // Restore the message from the temporary storage in case of an error
     }
   };
 
@@ -183,7 +190,13 @@ function ChatComponent({
 
   useEffect(() => {
     fetchChatHistory();
-  }, [fetchChatHistory, selectedPersona, userId]);
+  }, [fetchChatHistory, userId]);
+
+  useEffect(() => {
+    if (selectedPersona) {
+      setPersonaDescription(selectedPersona.description);
+    }
+  }, [selectedPersona]);
 
   return (
     <section className="bg-chat-green" style={{ minHeight: "100vh" }}>
@@ -191,11 +204,11 @@ function ChatComponent({
         <div className="card-body p-0">
           <div
             style={{
-              backgroundColor: "#2C2C2C", // Adjust with the exact color code
+              backgroundColor: "#2C2C2C",
               borderRadius: "15px",
               padding: "10px",
               textAlign: "center",
-              marginBottom: "10px", // Adds some space between the title bar and the chatbox
+              marginBottom: "10px",
             }}
           >
             <h1 style={{ color: "#FFFFFF" }} className="title-text">
@@ -247,10 +260,7 @@ function ChatComponent({
                             >
                               {msg.role === "assistant" && selectedPersona && (
                                 <img
-                                  src={
-                                    selectedPersona.avatar ||
-                                    "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"
-                                  }
+                                  src={selectedPersona.avatar}
                                   alt="avatar"
                                   className="bg-light"
                                   style={{
@@ -289,6 +299,7 @@ function ChatComponent({
                             </div>
                           );
                         })}
+
                         <div ref={messagesEndRef} />
                       </div>
                       <div className="text-muted d-flex justify-content-start align-items-center mt-2">

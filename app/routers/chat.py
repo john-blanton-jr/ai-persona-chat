@@ -175,7 +175,7 @@ async def send_message(request: SendMessageRequest):
         "persona_name": request.persona_name,
     }
 
-    # Add the new assistant message to the chat history
+    # Add the new friendly companion message to the chat history
     chat_history["messages"].append(new_message)
 
     # Update the chat history in the database
