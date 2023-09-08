@@ -13,6 +13,29 @@ function ChatComponent({
   const isFetching = useRef(false);
 
   const messagesEndRef = useRef(null);
+  const [maxHeight, setMaxHeight] = useState("700px");
+  const [chatWindowHeight, setChatWindowHeight] = useState("600px");
+
+  useEffect(() => {
+    const updateDimensions = () => {
+      if (window.innerWidth <= 992) {
+        setMaxHeight("300px");
+        setChatWindowHeight("400px"); // Set chat window height to 400px for responsive design
+      } else {
+        setMaxHeight("700px");
+        setChatWindowHeight("600px"); // Set chat window height back to 600px for larger screens
+      }
+    };
+
+    window.addEventListener("resize", updateDimensions);
+
+    // Initial check
+    updateDimensions();
+
+    return () => {
+      window.removeEventListener("resize", updateDimensions);
+    };
+  }, []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -152,9 +175,9 @@ function ChatComponent({
   }, [fetchChatHistory, selectedPersona, userId]);
 
   return (
-    <section className="bg-chat-green vh-100">
+    <section className="bg-chat-green" style={{ minHeight: "100vh" }}>
       <div className="container py-5">
-        <div className="card-body">
+        <div className="card-body p-0">
           <div
             style={{
               backgroundColor: "#2C2C2C", // Adjust with the exact color code
@@ -176,20 +199,28 @@ function ChatComponent({
                 style={{ borderRadius: "15px" }}
               >
                 <div className="card-body">
-                  <div className="row d-flex flex-column-reverse flex-md-row justify-content-around">
-                    <div className="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0 order-2 order-md-1 d-flex align-items-center p-3">
+                  <div className="row d-flex flex-column flex-lg-row justify-content-around">
+                    <div className="col-lg-5 col-xl-4 mb-4 mb-lg-0 d-flex align-items-center p-3">
                       <div className="w-100 d-flex justify-content-center">
-                        <div style={{ maxWidth: "500px", width: "100%" }}>
+                        <div
+                          style={{
+                            maxWidth: "500px",
+                            width: "100%",
+                            maxHeight: maxHeight, // Use the state variable here
+                            overflowY: "auto",
+                          }}
+                          className="h-100 h-lg-50"
+                        >
                           <PersonaList onSelectPersona={onSelectPersona} />
                         </div>
                       </div>
                     </div>
-                    <div className="col-md-6 col-lg-7 col-xl-8 p-3 order-1 order-md-2">
+                    <div className="col-lg-7 col-xl-8 p-3">
                       <div
                         className="p-3 overflow-auto bg-chat-dark"
                         style={{
                           position: "relative",
-                          height: "400px",
+                          height: chatWindowHeight, // Use the state variable here
                         }}
                       >
                         {chatHistory.map((msg, index) => {
@@ -228,7 +259,7 @@ function ChatComponent({
                                       : "bg-white shadow"
                                   }`}
                                 >
-                                  {msg.message}
+                                  {msg?.message}
                                 </div>
                               </div>
                               {msg.role === "user" && (

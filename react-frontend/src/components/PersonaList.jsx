@@ -15,7 +15,7 @@ function PersonaList({ onSelectPersona }) {
       data-mdb-perfect-scrollbar="true"
       className="d-flex flex-column justify-content-center align-items-center"
     >
-      <ul className="w-100 p-3">
+      <ul className="w-100 ps-2">
         {personas.map((persona, index) => (
           <li
             key={persona.name}

@@ -75,3 +75,26 @@ body{
   color: #F5AC72;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #3f434b; 
+}
+ 
+::-webkit-scrollbar-thumb {
+  background: #F5AC72; 
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #f7caa9; 
+}
+
+@media (max-width: 992px) {
+  .persona-list-container {
+    max-height: 300px;
+  }
+}
+
