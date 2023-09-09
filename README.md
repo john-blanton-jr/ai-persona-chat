@@ -104,6 +104,7 @@ This project was undertaken individually, showcasing the ability to manage and e
 - Frontend: React, Bootstrap for responsive design
 - Backend: FastAPI
 - Database: MongoDB for chat history storage
+- API: openai chatgpt 3.5 Turbo
 - Containerization: Docker Compose for orchestrating multi-container Docker applications
 
 
