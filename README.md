@@ -156,6 +156,7 @@ Install Docker, Python, Requests
   docker-compose up --build
   ```
 4. Remove the .example in on the .env file and add your chatGPT openai api key to the file. 
+    File is located at /app
 
 
 5. In the terminal at the root project folder you can load the peremade personas from personas.json.
