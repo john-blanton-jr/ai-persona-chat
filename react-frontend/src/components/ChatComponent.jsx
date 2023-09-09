@@ -203,8 +203,8 @@ function ChatComponent({
       <div className="container py-5">
         <div className="card-body p-0">
           <div
+            className="bg-chat-outer-dark"
             style={{
-              backgroundColor: "#2C2C2C",
               borderRadius: "15px",
               padding: "10px",
               textAlign: "center",
@@ -230,7 +230,7 @@ function ChatComponent({
                           style={{
                             maxWidth: "500px",
                             width: "100%",
-                            maxHeight: maxHeight, // Use the state variable here
+                            maxHeight: maxHeight,
                             overflowY: "auto",
                           }}
                           className="h-100 h-lg-50"
@@ -240,12 +240,11 @@ function ChatComponent({
                       </div>
                     </div>
                     <div className="col-lg-7 col-xl-8 p-3">
-                      <p className="text-white">Test over chat</p>
                       <div
                         className="p-3 overflow-auto bg-chat-dark"
                         style={{
                           position: "relative",
-                          height: chatWindowHeight, // Use the state variable here
+                          height: chatWindowHeight,
                         }}
                       >
                         {chatHistory.map((msg, index) => {
@@ -271,7 +270,7 @@ function ChatComponent({
                                 />
                               )}
                               <div
-                                className="mt-1 pt-2 px-3 fs-6 d-inline-block"
+                                className="mt-1 pt-2 px-3 fs-6 d-inline-block my-3"
                                 style={{ maxWidth: "75%" }}
                               >
                                 <div
@@ -312,35 +311,41 @@ function ChatComponent({
                         <form
                           onSubmit={handleSubmit}
                           id="create-presentation-form"
-                          className="mt-auto p-4 w-100 d-flex justify-content-end"
+                          className="mt-auto p-4 w-100 d-flex justify-content-end flex-column flex-md-row"
                         >
-                          <div className="input-group">
+                          <div className="input-group flex-grow-1">
                             <input
                               type="text"
                               className="form-control border-0 form-floating bg-chat-dark text-white me-2"
                               required
                               onChange={handleUserMessageChange}
                               onKeyDown={handleKeyPress}
-                              value={newMessage} // Changed this line to reflect the correct state
+                              value={newMessage}
                               id="chat3"
                               placeholder="Type message"
                             />
-                            <button
-                              className="btn btn-outline-light me-2"
-                              type="button"
-                              id="button-addon2"
-                              onClick={handleSubmit}
-                            >
-                              Send
-                            </button>
-                            <button
-                              className="btn btn-danger"
-                              type="button"
-                              id="button-addon3"
-                              onClick={handleDeleteHistory}
-                            >
-                              Delete History
-                            </button>
+                          </div>
+                          <div className="d-flex flex-column flex-md-row mt-2 mt-md-0 text-center">
+                            <div className="col-12 col-md-6 p-0 pe-md-2">
+                              <button
+                                className="btn btn-outline-light w-100"
+                                type="button"
+                                id="button-addon2"
+                                onClick={handleSubmit}
+                              >
+                                Send
+                              </button>
+                            </div>
+                            <div className="col-12 col-md-6 p-0 pt-2 pt-md-0">
+                              <button
+                                className="btn btn-danger"
+                                type="button"
+                                id="button-addon3"
+                                onClick={handleDeleteHistory}
+                              >
+                                Delete History
+                              </button>
+                            </div>
                           </div>
                         </form>
                       </div>
@@ -349,6 +354,54 @@ function ChatComponent({
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div
+          className="bg-chat-outer-dark d-flex text-white justify-content-around flex-wrap p-4"
+          style={{
+            borderRadius: "15px",
+            padding: "10px",
+            marginTop: "10px",
+          }}
+        >
+          <div className="col-12 col-lg-4 p-1 text-center">
+            <p className="">
+              Robots lovingly delivered by <br />
+              <a
+                href="https://robohash.org/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Robohash.org
+              </a>
+            </p>
+            <a
+              href="https://robohash.org/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="https://robohash.org/855.png?set=set5"
+                alt="robohash avatar"
+                className="w-50"
+              />
+            </a>
+          </div>
+          <div className="col-12 col-lg-8 p-1 ">
+            <h4>What am I?</h4>
+            <p>
+              Hello, explorers of the digital frontier! I am your friendly
+              neighborhood chatbot, here to keep you company, assist you, or
+              even be your virtual confidant. I wear many hats, or should I say,
+              personas, each designed to cater to your unique preferences and
+              needs. Whether you're in the mood for a friendly chat or seeking
+              assistance with tasks, I've got a persona just for you. Dive into
+              the world of AI and experience a conversation like no other. I am
+              here for everyone who is curious to witness the blend of
+              technology and personality, right at their fingertips. Let's chat,
+              shall we?
+            </p>
+            <p>Written by ChatGPT, your AI-powered Conversation Maestro</p>
           </div>
         </div>
       </div>

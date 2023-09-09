@@ -1,14 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 
 function PersonaList({ onSelectPersona }) {
   const [personas, setPersonas] = useState([]);
+  const [selectedPersona, setSelectedPersona] = useState(null);
+  const firstUpdate = useRef(true);
 
   useEffect(() => {
     fetch("http://localhost:8000/chat/get_personas")
       .then((response) => response.json())
-      .then((data) => setPersonas(data));
-  }, []);
+      .then((data) => {
+        setPersonas(data);
+        if (data.length > 0 && firstUpdate.current) {
+          onSelectPersona(data[0]);
+          setSelectedPersona(data[0].name);
+          firstUpdate.current = false;
+        }
+      });
+  }, [onSelectPersona]);
+
+  const handleSelectPersona = (persona) => {
+    onSelectPersona(persona);
+    setSelectedPersona(persona.name);
+  };
 
   return (
     <div
@@ -21,8 +35,12 @@ function PersonaList({ onSelectPersona }) {
             key={persona.name}
             className={`p-2 ${
               index === personas.length - 1 ? "" : "border-bottom"
-            } bg-chat-dark`}
-            onClick={() => onSelectPersona(persona)}
+            } ${
+              selectedPersona === persona.name
+                ? "bg-selected-persona border border-white border-3"
+                : "bg-chat-dark"
+            }`}
+            onClick={() => handleSelectPersona(persona)}
           >
             <a
               href="#!"
