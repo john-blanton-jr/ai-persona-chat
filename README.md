@@ -133,6 +133,52 @@ The Multi-Persona AI Chatbot offers a unique platform for users to experience AI
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- GETTING STARTED -->
+## Getting Started
+
+Fork and clone repository
+
+### Prerequisites
+
+Install Docker, Python, Requests
+
+### Installation
+
+
+1. Clone the repo
+   ```sh
+   git clone https://gitlab.com/your_repo_name/ai-persona-chat
+   ```
+
+3. Build the Docker images and Start the containers
+   ```sh
+   docker-compose up --build
+   ```
+4. In the terminal at the root project folder you can load the peremade personas from personas.json.
+```sh
+   python .\load_persona_json.py
+```
+<!-- USAGE EXAMPLES -->
+## Usage
+
+Can be used or adapted any way you would like. Feel free to clone and change it up to your specifications. 
+
+
+<!-- ROADMAP -->
+## Roadmap
+
+Coming soon ...
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- CONTRIBUTING -->
+## Contributing
+
+Coming soon ...
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
