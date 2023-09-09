@@ -1,3 +1,46 @@
+<a name="readme-top"></a>
+
+
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <h1>AI Persona Chat</h1>
+  </a>
+
+  <h3 align="center">A Multi-Persona AI Chatbot</h3>
+
+</div>
+
+
+
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</details>
+
+<!-- ABOUT THE PROJECT -->
+## About The Project
+
 ## Overview
 The Multi-Persona AI Chatbot is a user-friendly platform that allows users to interact with AI through various predefined personas. Depending on the selected persona, the chatbot can function as a friendly companion or a helpful assistant. The project utilizes React for the frontend and FastAPI for the backend, encapsulated within a Docker container for streamlined deployment and scalability.
 
@@ -50,23 +93,24 @@ The Multi-Persona AI Chatbot is a user-friendly platform that allows users to in
 - Feedback was incorporated to enhance functionalities and improve UI elements.
 <br>
 <br>
+
 ## Collaborative Development
+
 This project was undertaken individually, showcasing the ability to manage and execute a comprehensive development project independently.
-<br>
-<br>
+
+
 ## Technologies Used
 
 - Frontend: React, Bootstrap for responsive design
-
 - Backend: FastAPI
-
 - Database: MongoDB for chat history storage
-
 - Containerization: Docker Compose for orchestrating multi-container Docker applications
-<br>
-<br>
+
+
 ## Conclusion
+
 The Multi-Persona AI Chatbot offers a unique platform for users to experience AI chat with a personalized touch. It combines technology and predefined persona models to provide a varied and engaging chat experience.
+
 
 <br>
 <br>
@@ -77,3 +121,13 @@ The Multi-Persona AI Chatbot offers a unique platform for users to experience AI
 ![Autotrackr screenshot](/images/persona_chat_screenshot_04.png "Boilerplate FIles")
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+## Built With
+
+* ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) - Frontend library for building user interfaces.
+* ![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white) - Frontend toolkit for developing with HTML, CSS, and JS.
+* ![FastAPI](https://img.shields.io/badge/fastapi-109989?style=for-the-badge&logo=FASTAPI&logoColor=white) - A modern, high-performance web framework for building APIs with Python.
+* ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white) - NoSQL database for storing chat histories.
+* ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white) - Platform to build, deploy, and manage containerized applications.
+* ![Robohash](https://img.shields.io/badge/Robohash-%237589C7.svg?style=for-the-badge&logo=robohash&logoColor=white) - API for generating unique, robot-themed avatars.
