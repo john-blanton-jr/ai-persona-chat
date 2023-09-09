@@ -130,7 +130,6 @@ The Multi-Persona AI Chatbot offers a unique platform for users to experience AI
 * ![FastAPI](https://img.shields.io/badge/fastapi-109989?style=for-the-badge&logo=FASTAPI&logoColor=white) - A modern, high-performance web framework for building APIs with Python.
 * ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white) - NoSQL database for storing chat histories.
 * ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white) - Platform to build, deploy, and manage containerized applications.
-* ![Robohash](https://img.shields.io/badge/Robohash-%237589C7.svg?style=for-the-badge&logo=robohash&logoColor=white) - API for generating unique, robot-themed avatars.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
