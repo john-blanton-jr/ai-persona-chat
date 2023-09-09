@@ -131,3 +131,73 @@ The Multi-Persona AI Chatbot offers a unique platform for users to experience AI
 * ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white) - NoSQL database for storing chat histories.
 * ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white) - Platform to build, deploy, and manage containerized applications.
 * ![Robohash](https://img.shields.io/badge/Robohash-%237589C7.svg?style=for-the-badge&logo=robohash&logoColor=white) - API for generating unique, robot-themed avatars.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- GETTING STARTED -->
+## Getting Started
+
+Fork and clone repository
+
+### Prerequisites
+
+Install Docker
+
+### Installation
+
+
+1. Clone the repo
+   ```sh
+   git clone https://gitlab.com/johnbjr76/Autotrackr.git
+   ```
+2. Create the database volume in docker
+   ```sh
+   docker volume create beta-data
+   ```
+3. Build the Docker images
+   ```sh
+   docker-compose build
+   ```
+4. Start the Docker containers
+   ```sh
+   docker-compose up
+   ```
+
+
+<!-- USAGE EXAMPLES -->
+## Usage
+
+Can be used or adapted any way you would like. Feel free to clone and change it up to your specifications. 
+
+
+<!-- ROADMAP -->
+## Roadmap
+
+No roadmap or future support planned.  Any questions feel free to send me an email hello@johnblanton.com.
+
+
+
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See `LICENSE.txt` for more information.
+
+
+<!-- CONTACT -->
+## Contact
+
+John Blanton - hello@johnblanton.com
+
+Project Link: [https://gitlab.com/johnbjr76/Autotrackr](https://gitlab.com/johnbjr76/Autotrackr)
+
+
+<!-- ACKNOWLEDGMENTS -->
+## Acknowledgments
+
+* [Markdown Badges](https://github.com/Ileriayo/markdown-badges)
+* [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
