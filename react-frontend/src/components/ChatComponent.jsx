@@ -16,6 +16,7 @@ function ChatComponent({
   const [maxHeight, setMaxHeight] = useState("700px");
   const [chatWindowHeight, setChatWindowHeight] = useState("600px");
   const [tempMessage, setTempMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const updateDimensions = () => {
@@ -135,6 +136,8 @@ function ChatComponent({
     setNewMessage(""); // Clear the input field immediately
 
     try {
+      setIsLoading(true); // Set loading to true at the start of the try block
+
       const userMessage = {
         role: "user",
         message: newMessage,
@@ -174,6 +177,7 @@ function ChatComponent({
         ]);
 
         setTempMessage(""); // Clear the temporary message as it has been successfully sent
+        setIsLoading(false); // Set loading to false when the response is received
       } else {
         console.error("Unexpected response format:", data);
         throw new Error("Unexpected response format");
@@ -181,6 +185,7 @@ function ChatComponent({
     } catch (error) {
       console.error("Error sending message:", error);
       setNewMessage(tempMessage); // Restore the message from the temporary storage in case of an error
+      setIsLoading(false); // Set loading to false in case of an error
     }
   };
 
@@ -300,6 +305,7 @@ function ChatComponent({
                         })}
 
                         <div ref={messagesEndRef} />
+                        {isLoading && <div className="loading-dots">...</div>}
                       </div>
                       <div className="text-muted d-flex justify-content-start align-items-center mt-2">
                         <img

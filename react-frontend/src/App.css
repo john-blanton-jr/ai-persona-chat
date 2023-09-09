@@ -101,3 +101,18 @@ body{
 a {
   color: #f78120
 }
+
+.loading-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-size: 2rem;
+  animation: blink 1s steps(5, start) infinite;
+  color: white;
+}
+
+@keyframes blink {
+  to {
+    visibility: hidden;
+  }
+}
