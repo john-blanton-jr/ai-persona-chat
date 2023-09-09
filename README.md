@@ -135,7 +135,7 @@ The Multi-Persona AI Chatbot offers a unique platform for users to experience AI
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
+<!-- 
 <!-- GETTING STARTED -->
 ## Getting Started
 
@@ -182,7 +182,7 @@ No roadmap or future support planned.  Any questions feel free to send me an ema
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the MIT License. See `LICENSE.txt` for more information. -->
 
 
 <!-- CONTACT -->
