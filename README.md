@@ -146,18 +146,25 @@ Install Docker, Python, Requests
 
 
 1. Clone the repo
-   ```sh
-   git clone https://gitlab.com/your_repo_name/ai-persona-chat
-   ```
+  ```sh
+  git clone https://gitlab.com/your_repo_name/ai-persona-chat
+  ```
 
 3. Build the Docker images and Start the containers
-   ```sh
-   docker-compose up --build
-   ```
+  ```sh
+  docker-compose up --build
+  ```
 4. In the terminal at the root project folder you can load the peremade personas from personas.json.
-```sh
-   python .\load_persona_json.py
-```
+  ```sh
+  python .\load_persona_json.py
+  ```
+
+4. In your browser goto:
+    http://localhost:3000/ - for the homepage
+    http://localhost:8000/docs - fastapi endpoints
+    http://localhost:8081/ - Mongo Express
+
+
 <!-- USAGE EXAMPLES -->
 ## Usage
 
@@ -179,8 +186,6 @@ Coming soon ...
 Coming soon ...
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 
 
