@@ -104,6 +104,7 @@ This project was undertaken individually, showcasing the ability to manage and e
 - Frontend: React, Bootstrap for responsive design
 - Backend: FastAPI
 - Database: MongoDB for chat history storage
+- API: openai chatgpt 3.5 Turbo
 - Containerization: Docker Compose for orchestrating multi-container Docker applications
 
 
@@ -130,12 +131,62 @@ The Multi-Persona AI Chatbot offers a unique platform for users to experience AI
 * ![FastAPI](https://img.shields.io/badge/fastapi-109989?style=for-the-badge&logo=FASTAPI&logoColor=white) - A modern, high-performance web framework for building APIs with Python.
 * ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white) - NoSQL database for storing chat histories.
 * ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white) - Platform to build, deploy, and manage containerized applications.
-* ![Robohash](https://img.shields.io/badge/Robohash-%237589C7.svg?style=for-the-badge&logo=robohash&logoColor=white) - API for generating unique, robot-themed avatars.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- GETTING STARTED -->
+## Getting Started
+
+Fork and clone repository
+
+### Prerequisites
+
+Install Docker, Python, Requests
+
+### Installation
+
+
+1. Clone the repo
+  ```sh
+  git clone https://gitlab.com/your_repo_name/ai-persona-chat
+  ```
+
+3. Build the Docker images and Start the containers
+  ```sh
+  docker-compose up --build
+  ```
+4. In the terminal at the root project folder you can load the peremade personas from personas.json.
+  ```sh
+  python .\load_persona_json.py
+  ```
+
+4. In your browser goto:
+    http://localhost:3000/ - for the homepage
+    http://localhost:8000/docs - fastapi endpoints
+    http://localhost:8081/ - Mongo Express
+
+
+<!-- USAGE EXAMPLES -->
+## Usage
+
+Can be used or adapted any way you would like. Feel free to clone and change it up to your specifications. 
+
+
+<!-- ROADMAP -->
+## Roadmap
+
+Coming soon ...
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
+<!-- CONTRIBUTING -->
+## Contributing
+
+Coming soon ...
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
@@ -158,6 +209,7 @@ Project Link: [https://gitlab.com/johnbjr76/Autotrackr](https://gitlab.com/johnb
 
 * [Markdown Badges](https://github.com/Ileriayo/markdown-badges)
 * [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
+* [Robots lovingly delivered by Robohash.org](https://robohash.org/#)
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
