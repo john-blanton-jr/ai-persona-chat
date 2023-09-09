@@ -135,47 +135,7 @@ The Multi-Persona AI Chatbot offers a unique platform for users to experience AI
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-<!-- 
-<!-- GETTING STARTED -->
-## Getting Started
 
-Fork and clone repository
-
-### Prerequisites
-
-Install Docker
-
-### Installation
-
-
-1. Clone the repo
-   ```sh
-   git clone https://gitlab.com/johnbjr76/Autotrackr.git
-   ```
-2. Create the database volume in docker
-   ```sh
-   docker volume create beta-data
-   ```
-3. Build the Docker images
-   ```sh
-   docker-compose build
-   ```
-4. Start the Docker containers
-   ```sh
-   docker-compose up
-   ```
-
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Can be used or adapted any way you would like. Feel free to clone and change it up to your specifications. 
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-No roadmap or future support planned.  Any questions feel free to send me an email hello@johnblanton.com.
 
 
 
