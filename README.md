@@ -155,12 +155,15 @@ Install Docker, Python, Requests
   ```sh
   docker-compose up --build
   ```
-4. In the terminal at the root project folder you can load the peremade personas from personas.json.
+4. Remove the .example in on the .env file and add your chatGPT openai api key to the file. 
+
+
+5. In the terminal at the root project folder you can load the peremade personas from personas.json.
   ```sh
   python .\load_persona_json.py
   ```
 
-4. In your browser goto:
+6. In your browser goto:
     http://localhost:3000/ - for the homepage
     http://localhost:8000/docs - fastapi endpoints
     http://localhost:8081/ - Mongo Express
