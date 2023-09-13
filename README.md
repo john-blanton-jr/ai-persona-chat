@@ -116,10 +116,11 @@ The Multi-Persona AI Chatbot offers a unique platform for users to experience AI
 <br>
 <br>
 <br>
-![Autotrackr screenshot](/images/persona_chat_screenshot_01.png "Boilerplate FIles")
-![Autotrackr screenshot](/images/persona_chat_screenshot_02.png "Boilerplate FIles")
-![Autotrackr screenshot](/images/persona_chat_screenshot_03.png "Boilerplate FIles")
-![Autotrackr screenshot](/images/persona_chat_screenshot_04.png "Boilerplate FIles")
+<img src="/images/persona_chat_screenshot_01.png" alt="Autotrackr screenshot" title="Boilerplate FIles">
+<img src="/images/persona_chat_screenshot_02.png" alt="Autotrackr screenshot" title="Boilerplate FIles">
+<img src="/images/persona_chat_screenshot_03.png" alt="Autotrackr screenshot" title="Boilerplate FIles">
+<img src="/images/persona_chat_screenshot_04.png" alt="Autotrackr screenshot" title="Boilerplate FIles">
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
